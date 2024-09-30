@@ -47,7 +47,11 @@
                 break;                
             }
         }
-    
+        if ($esPrimo) {
+            echo ("<p>El $numero es primo </p>");
+        }else {
+            echo ("<p>El $numero no es primo </p>");
+        }
     
     ?>
 </body>

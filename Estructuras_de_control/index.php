@@ -33,6 +33,14 @@
                     Ejercicios de fechas con la funcion date.
                 </th>
             </tr>
+            <tr>
+                <th>
+                    <a href="./Ejercicios.php">Ejercicios.php</a>
+                </th>
+                <th>
+                    Ejercicios bucles y carlos if if 
+                </th>
+            </tr>
         </tbody>
     </table>    
 
