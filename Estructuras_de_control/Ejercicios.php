@@ -52,7 +52,8 @@
         }else {
             echo ("<p>El $numero no es primo </p>");
         }
-    
+
+        
     ?>
 </body>
 </html>
