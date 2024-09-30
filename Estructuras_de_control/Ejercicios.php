@@ -38,8 +38,15 @@
             $contenedor *= $i;
             echo ("<p>$contenedor</p>");
         }
-        echo ("<h1>Ejercicio Clase Numeros primos</h1>")
-        
+        echo ("<h1>Ejercicio Clase Numeros primos</h1>");
+        $numero = 7;
+        $esPrimo = true;
+        for ($i=2; $i < numero; $i++) { 
+            if ($numero % $i ==0) {
+                $esPrimo = false;
+                break;                
+            }
+        }
     
     
     ?>
