@@ -33,23 +33,34 @@
 -->
 <!--EJERCICIO 1-->
     <?php
-        $profesores["Jose Miguel"] = "Desarrollo web en entorno cliente";
-        $profesores["Jose Miguel"] = "Desarrollo de interfaces web ";
-        $profesores["Alejandra"] = "Desarrollo web en entorno servidor";
-        $profesores["Jaime"] = "Despliegue de aplicaciones";
-        $profesores["Andrea"] = "Empresa e iniciativa emprendedora";
-        $profesores["Virgina"] = "Ingles";
-        print_r($profesores);
+    $profesores = [
+        "Jose Miguel" => "Desarrollo web en entorno cliente",
+        "Jose Miguel" => "Desarrollo de interfaces web",
+        "Alejandra" => "Desarrollo web en entorno servidor",
+        "Jaime" => "Despliegue de aplicaciones",
+        "Andrea" => "Empresa e iniciativa emprendedora",
+        "Virginia" => "Inglés"
+    ];
     ?>
-    
+        <?php
+        $alumnos = [
+            "Francisco" => "3",
+            "Aurora" => "10",
+            "Daniel" => "5",
+            "Luis" => "7",
+            "Samuel" => "9"
+        ];
+
+        print_r($alumnos);
+    ?>
 
     <h1>EJERCICIO 1</h1>
 <table>
     <caption>Profesor y asignatura</caption>
     <thead>
         <tr>
-            <th>Asignatura</th>
             <th>Profesor</th>
+            <th>Asignatura</th>
         </tr>
         <tbody>
             <?php
@@ -62,11 +73,41 @@
            <?php }?>
             
         </tbody>
+
     </thead>
 </table>
+<h1>EJERCICIO 2 Y 3</h1>
 
+<table>
+    <thead>
+        <tr>
+            <th>Alumno</th>
+            <th>Nota</th>
+            <th>Aprobado/Suspenso</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        foreach ($alumnos as $nombreAlu => $notaAlu) {?>
+            <tr>
+                <td><?php echo $nombreAlu?></td>
+                <td><?php echo $notaAlu?></td>
+                <td>
+                    <?php
+                        if ($notaAlu >= 5) {
+                            echo "aprobado";
+                        }else {
+                            echo "suspenso";
+                        }
+                    
+                    
+                    ?>
 
-
+                </td>                
+            </tr>
+        <?php } ?>
+    </tbody>
+</table>
 
 
 
