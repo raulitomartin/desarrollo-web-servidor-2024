@@ -42,7 +42,7 @@
         "Virginia" => "Inglés"
     ];
     ?>
-        <?php
+    <?php
         $alumnos = [
             "Francisco" => "3",
             "Aurora" => "10",
