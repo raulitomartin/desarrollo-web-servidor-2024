@@ -43,7 +43,7 @@
         echo "<h3>Hay $cantidad_animales animales</h3>";
 
 
-        //coche moto gasolina olo a aceite de motoh, si joder esto e sine
+        //coche moto gasolina olo a aceite de motoh, si jode esto e sine
         /*
             CREAR EL ARRAY CON 3 COCHES
             AÑADIR 2 COCHES CON SUS MATRICULAS
