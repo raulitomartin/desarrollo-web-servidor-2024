@@ -5,23 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Peliculas</title>
     <link rel="stylesheet" href="./estilo.css">
+    <?php
+        error_reporting( E_ALL );
+        ini_set("display_errors", 1);
+    ?>
 </head>
 <body>
     <?php
-    $numAle1 = rand(30, 240);
-    $numAle2 = rand(30, 240);
-    $numAle3 = rand(30, 240);
-    $numAle4 = rand(30, 240);
-    $numAle5 = rand(30, 240);
 
-
-    $peliculas = [
-        ["Karate a muerte en torremolinos", "SI", 2003, $numAle1],
-        ["Sharknado 1-5", "Accion", 2015, $numAle2],
-        ["Princesa por sorpresa 2", "Comedia", 2008, $numAle3],
-        ["Jagger royale", "Infantil", 2000, $numAle4],
-        ["Pacific Rim", "Accion", 2013, $numAle5],
+$peliculas = [
+        ["Karate a muerte en torremolinos", "SI", 2003],
+        ["Sharknado 1-5", "Accion", 2015],
+        ["Princesa por sorpresa 2", "Comedia", 2008],
+        ["Jagger royale", "Infantil", 2000],
+        ["Pacific Rim", "Accion", 2013],
     ];
+    for ($i=0; $i < count($peliculas); $i++) { 
+        $peliculas[$i][3] = rand(30, 240);
+    }
+
 
     /*
         1.AÑADIR CON UN RAND, LA DURACION DE CADA PELICULA. LA DURACION SERA UN NUMERO ALEATORIO
@@ -57,9 +59,10 @@
                     echo "<td>$genero</td>";
                     echo "<td>$año</td>";
                     echo "<td>$duracion</td>";
+                    //cortometraje/largometraje
                     if ($duracion < 60) {
                         echo "<td>Cortometraje</td>";
-                    } elseif($duracion >= 60){
+                    } else{
                         echo "<td>Largometraje</td>";
                     }
                     echo "</tr>";
@@ -71,10 +74,41 @@
 
     <h1>Ordenar por 1º Genero, 2º Año, 3º Titulo(TODO ALFABETICAMENTE, Y EL AÑO DE MAS RECIENTE A MAS ANTIGUO)</h1>
     <?php
-        array_multisort($peliculas, )
-    
-    
-    
+        //array_multisort($peliculas, )
+        $_titulo = array_colum($peliculas,0);
+        $_genero = array_column($peliculas,1);
+        $año = array_column($peliculas,2);
+
+        array_multisort($genero, SORT_ASC, $año, SORT_DESC  , $titulo, SORT_ASC, $peliculas);
     ?>
+        <table>
+        <thead>
+            <th>Titulo</th>
+            <th>Genero</th>
+            <th>Año</th>
+            <th>Duracion</th>
+            <th>Tipo</th>
+        </thead>
+        <tbody>
+        <?php
+                foreach ($peliculas as $pelicula) {
+                    list($titulo,$genero,$año,$duracion) = $pelicula;
+                    echo "<tr>";
+                    echo "<td>$titulo</td>";
+                    echo "<td>$genero</td>";
+                    echo "<td>$año</td>";
+                    echo "<td>$duracion</td>";
+                    //cortometraje/largometraje
+                    if ($duracion < 60) {
+                        echo "<td>Cortometraje</td>";
+                    } else{
+                        echo "<td>Largometraje</td>";
+                    }
+                    echo "</tr>";
+                }
+
+            ?>
+        </tbody>
+    </table>
 </body>
 </html>
