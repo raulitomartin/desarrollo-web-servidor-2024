@@ -19,13 +19,24 @@
 </head>
 
 <body>
-
+    <?php
+        function depurar($entrada) {
+            if ($entrada == null) {
+                return "";
+            }
+            $salida = htmlspecialchars($entrada); // Para que no lleguen scripts o cosas raras que no queremos
+            $salida = trim($salida); // Elimina los espacios de antes y despues
+            $salida = stripslashes($salida); // Elimina las barras invertidas () de la cadena
+            $salida = preg_replace('!\s+!', ' ', $salida); // Reemplaza cualquier cantidad de espacios en blanco por un solo espacio.
+            return $salida;
+        }
+    ?>
     <?php
     $estudios = ["Ghibli", "Bones", "Madhouse", "Goku", "Mappa"];
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $tmp_titulo = $_POST["titulo"];
-        $tmp_anno_estreno = $_POST["anno_estreno"];
-        $tmp_num_temporadas = $_POST["num_temporadas"];
+        $tmp_titulo = depurar($_POST["titulo"]);
+        $tmp_anno_estreno = depurar($_POST["anno_estreno"]);
+        $tmp_num_temporadas = depurar($_POST["num_temporadas"]);
 
 
 
@@ -43,7 +54,7 @@
 
 
         /* Validacion del campo nombre_estudio */
-        if (isset($_POST["nombre_estudio"])) { //Si existe el post de nombre usuario en el formulario del select creo tmp con lo que hay dentro del select
+        if (isset($_POST["nombre_estudio"])) { //Si existe el post de nombre estudio en el formulario del select creo tmp con lo que hay dentro del select
             $tmp_nombre_estudio = $_POST["nombre_estudio"];
         } else { //Si no existe tmp esta vacio y me sirve para validarlo luego
             $tmp_nombre_estudio = "";
@@ -70,10 +81,10 @@
                 $err_anno_estudio = "Solo se admiten numeros";
             } else {
 
-                if ($tmp_anno_estreno >= 1960 && $tmp_anno_estreno <= 1965) { //Compruebo que el anno de estreno esta entre los valores permitidos
+                if ($tmp_anno_estreno >= 1960 && $tmp_anno_estreno <= 2029) { //Compruebo que el anno de estreno esta entre los valores permitidos
                     $anno_estreno = $tmp_anno_estreno;
                 } else { //Final troste
-                    $err_anno_estudio = "Ponga un anno entre 1960 y 1965";
+                    $err_anno_estudio = "Ponga un anno entre 1960 y 2029";
                 }
             }
         }
@@ -98,21 +109,6 @@
 
 
     ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <h2>Formulario Animes</h2>

@@ -16,7 +16,7 @@
             if ($tmp_nombre_estudio == '') {
                 $err_nombre_estudio = "No puedes dejar este campo vacio";
             } else {
-                $patron = "/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ1-9 ]+$/";
+                $patron = "/^[a-zA-Z1-9 ]+$/";
                 if (!preg_match($patron,$tmp_nombre_estudio)) {
                     $err_nombre_estudio = "solo puedes poner letras numeros y espacios en blanco";
                 } else {
