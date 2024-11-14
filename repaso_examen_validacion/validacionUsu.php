@@ -102,8 +102,8 @@
             if ($tmp_edad == '') { //Si deja el campo vacio se crea la variable de error
                 $err_edad = "No puedes dejar el campo vacio";
             } else { //Si no esta vacio comienza la validacion.
-                $patron = "/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/";//expresion regular del correo
-                if (!preg_match($patron,$tmp_edad)) {//controlo que coincida el correo del usuario con la validacion
+                $patron = "/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/";//expresion regular de la fecha
+                if (!preg_match($patron,$tmp_edad)) {//controlo el formato de la fecha.
                     $err_edad = "Formato incorrecto";
                 } else {
                     $fecha_actual = date("Y-m-d");
