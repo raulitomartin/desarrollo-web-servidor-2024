@@ -80,8 +80,8 @@
             if (!is_numeric($tmp_anno_estreno)) { //Compruebo que lo que ponen en el campo son numeros
                 $err_anno_estudio = "Solo se admiten numeros";
             } else {
-
-                if ($tmp_anno_estreno >= 1960 && $tmp_anno_estreno <= 2029) { //Compruebo que el anno de estreno esta entre los valores permitidos
+                $anno = date("Y");
+                if ($tmp_anno_estreno >= 1960 && $tmp_anno_estreno <= ($anno +5)) { //Compruebo que el anno de estreno esta entre los valores permitidos
                     $anno_estreno = $tmp_anno_estreno;
                 } else { //Final troste
                     $err_anno_estudio = "Ponga un anno entre 1960 y 2029";
