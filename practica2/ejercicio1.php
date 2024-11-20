@@ -32,11 +32,12 @@
         }
     ?>
     <?php
-    $estudios = ["Ghibli", "Bones", "Madhouse", "Goku", "Mappa"];
+    $estudios = ["NO", "SI"];
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $tmp_titulo = depurar($_POST["titulo"]);
         $tmp_anno_estreno = depurar($_POST["anno_estreno"]);
         $tmp_num_temporadas = depurar($_POST["num_temporadas"]);
+        $tmp_sinopsis = depurar($_POST["sinopsis"]);
 
 
 
@@ -44,24 +45,68 @@
         if ($tmp_titulo == '') { //Valido que el usuario no deje el campo vacio
             $err_titulo = "No puedes dejar el campo del titulo vacio";
         } else {
-            if (strlen($tmp_titulo) > 80) { //Controlo que el usuario no ponga mas de 80 caracteres
-                $err_titulo = "No puedes poner mas de 80 caracteres";
-            } else { //Final feliz
-                $titulo = $tmp_titulo;
+            $patron = "/^[a-zA-Z][1-9 áéióúÁÉÍÓÚñÑüÜñÑ][,.;]+$/";
+            if (preg_match($patron,$tmp_titulo)) {
+                $err_titulo = "No admiten carecteres especiales";
+            } else {
+                if (strlen($tmp_titulo) < 1 || strlen($tmp_titulo) > 40) {
+                    $err_titulo = "Minimo 1 caracter maximo 40";
+                } else {
+                    $titulo = $tmp_titulo;
+                }
+            }
+        }
+
+        //GENERO
+        if (isset($_POST["genero"])) {
+            $tmp_genero = depurar($_POST["genero"]);
+        } else {
+            $tmp_genero = "";
+        }
+
+        if ($tmp_genero == '') {
+            $err_genero = "Tienes que elegir un genero";
+
+        } else{
+            /* Array de las consolas disponibles que hay en los radio button */
+            $listaGeneros=["fantasia", "ciencia_ficcion", "romance", "drama"];
+            /* Comparo lo que ha puesto el usuario con la lista de las consolas*/
+            if(!in_array($tmp_genero, $listaGeneros)){
+                $err_genero = "El genero no es valido";
+                 
+            } else {
+                $genero = $tmp_genero;
+              
+            }
+        }
+
+
+        //validacion sinopsis
+        if ($tmp_sinopsis == "") {
+            $sinopsis = "";
+            
+        } else {
+            $patrons =  "/^[a-zA-Z áéióúÁÉÍÓÚñÑüÜñÑ ]+$/";
+            if (!preg_match($patrons, $tmp_sinopsis)) {
+                $err_sinopsis = "solo puedes poner letras con tilde espacios en blanco y la letra ñ";
+                
+            } else {
+                
+                $sinopsis = $tmp_sinopsis;
             }
         }
 
 
 
-        /* Validacion del campo nombre_estudio */
+        /* Validacion del campo si o no */
         if (isset($_POST["nombre_estudio"])) { //Si existe el post de nombre estudio en el formulario del select creo tmp con lo que hay dentro del select
             $tmp_nombre_estudio = $_POST["nombre_estudio"];
         } else { //Si no existe tmp esta vacio y me sirve para validarlo luego
-            $tmp_nombre_estudio = "";
+            $tmp_nombre_estudio = $estudios[0];
         }
 
         if ($tmp_nombre_estudio == '') { //Si tmp esta vacio creo la variable del error
-            $err_nombre_estudio = "No puedes dejar el campo del estucio vacio";
+            $nombre_estudio = $estudios[0];
         } else {
 
             if (!in_array($tmp_nombre_estudio, $estudios)) { // Si el nombre del estudio no esta en el array creo la variable del error
@@ -81,7 +126,7 @@
                 $err_anno_estudio = "Solo se admiten numeros";
             } else {
                 $anno = date("Y");
-                if ($tmp_anno_estreno >= 1960 && $tmp_anno_estreno <= ($anno +5)) { //Compruebo que el anno de estreno esta entre los valores permitidos
+                if ($tmp_anno_estreno >= 1800 && $tmp_anno_estreno <= ($anno +3)) { //Compruebo que el anno de estreno esta entre los valores permitidos
                     $anno_estreno = $tmp_anno_estreno;
                 } else { //Final troste
                     $err_anno_estudio = "Ponga un anno entre 1960 y 2029";
@@ -91,21 +136,25 @@
 
 
 
-        /* Validacion del campo num_temporadas */
+        /* Validacion del campo num_paginas */
         if ($tmp_num_temporadas == '') {
             $err_num_temporadas = "No puedes dejar este campo vacio";
         } else {
             if (!is_numeric($tmp_num_temporadas)) {
                 $err_num_temporadas = "Tienes que poner un valor numerico";
             } else {
-                if ($tmp_num_temporadas >1 && $tmp_num_temporadas <= 99) {
-                    $num_temporadas = $tmp_num_temporadas;
+                if ($tmp_num_temporadas < 10 || $tmp_num_temporadas > 9999) {
+                    $err_num_temporadas = "Debes poner un numero entre 10 y 9999";
                 } else {
-                    $err_num_temporadas = "Debes poner un numero entre 1 y 99";
+                    $num_temporadas = $tmp_num_temporadas;
                 }
             }
         }
     }
+
+
+
+
 
 
     ?>
@@ -125,10 +174,50 @@
             ?>
         </div>
 
+        <div>
+            <label class="mb3">Paginas</label>
+            <input type="text" class="form-control" name = "num_temporadas">
+            <!-- Control de errores -->
+             <?php
+                if(isset($err_num_temporadas)){
+                    echo "<span class = 'error'>$err_num_temporadas</span>";
+                }
+             ?>
+        </div>
+
+        <div>
+            <label class ="mb3">Genero</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="genero" id="fantasia" value="fantasia" >
+                <label class="form-check-label" for="fantasia">
+                    FANTASIA    
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="genero" id="ciencia_ficcion" value="ciencia_ficcion" >
+                <label class="form-check-label" for="ciencia_ficcion">
+                    CIENCIA FICCION
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="genero" id="romance" value="romance">
+                <label class="form-check-label" for="romance">
+                    ROMANCE
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="genero" id="drama" value="drama">
+                <label class="form-check-label" for="drama">
+                    DRAMA
+                </label>
+            </div>
+            <?php if(isset($err_genero)) echo "<span class = 'error'>$err_genero</span>"?>
+        </div>
+
 
         <!-- Formulario nombre_estudio -->
         <div>
-            <label class="mb3">Nombre estudio</label>
+            <label class="mb3">Tiene Secuela:</label>
             <select name="nombre_estudio" id="nombre_estudio">
                 <!-- Array con los nombre de los animes -->
                 <?php
@@ -149,30 +238,22 @@
 
             ?>
         </div>
-
-
-        <!-- Anno de estreno campo opcional -->
         <div>
-            <label class="mb3">Anno de estreno</label>
-            <input type="text" class="form-control" name="anno_estreno">
+            <label class = "mb3">Sinopsis:</label>
+            <Textarea type = "text" name = "sinopsis"></Textarea>
             <?php
-            if (isset($err_anno_estudio)) {
-                echo "<span class = 'error'>$err_anno_estudio</span>";
-            }
+                if (isset($err_sinopsis)) {
+                    echo "<span class = 'error'>$err_sinopsis</span>";
+                }
             ?>
         </div>
 
 
-        <div>
-            <label class="mb3">Numero de Temporadas</label>
-            <input type="text" class="form-control" name = "num_temporadas">
-            <!-- Control de errores -->
-             <?php
-                if(isset($err_num_temporadas)){
-                    echo "<span class = 'error'>$err_num_temporadas</span>";
-                }
-             ?>
-        </div>
+        <!-- Anno de estreno campo opcional -->
+
+
+
+
 
         <!-- Boton de enviar -->
         <div class="mb-3">
@@ -184,11 +265,12 @@
         <!-- RESULTADOS -->
         <div class="mb3">
             <?php
-                if (isset($titulo) && isset($nombre_estudio) && isset($anno_estreno) && isset($num_temporadas)) {
-                    echo "<h3>$titulo</h3>";
-                    echo "<h3>$nombre_estudio</h3>";
-                    echo "<h3>$anno_estreno</h3>";
-                    echo "<h3>$num_temporadas</h3>";
+                if (isset($titulo) && isset($num_temporadas) && isset($genero) && isset($nombre_estudio) && isset($sinopsis)) {
+                    echo "<h3> El titulo es:$titulo</h3>";
+                    echo "<h3>EL numero de paginas es $num_temporadas</h3>";
+                    echo "<h3>El genero es: $genero</h3>";
+                    echo "<h3>Tiene secuela: $nombre_estudio</h3>";
+                    echo "<h3>La sinopsis es: $sinopsis</h3>";
                 } else {
                     echo "<h1 class = 'error'>Rellene todos los campos porfavor</h1>";
                 }

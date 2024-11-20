@@ -24,13 +24,14 @@
         $sql = "SELECT * FROM animes";
         $resultado = $_conexion -> query($sql); //El reultado almacena una consulta
         ?>
-
+        <a href="nuevo_anime.php" class="btn btn-primary">Crear nuevo anime</a><br><br>
         <table class = "table table-striped table-hover">
             <thead class ="table-dark">
                 <th>Titulo</th>
                 <th>Estudio</th>
                 <th>Año</th>
                 <th>Numero de temporadas</th>
+                <th>Imagen</th>
             </thead >
             <tbody>
                 <?php
@@ -40,9 +41,15 @@
                         echo "<td>" . $fila['nombre_estudio'] . "</td>";
                         echo "<td>" . $fila['anno_estreno'] . "</td>";
                         echo "<td>" . $fila['num_temporadas'] . "</td>";
-                        echo "</tr>";                        
+                        ?>
+                        <td>
+                            <img width = "100" height = "200" src = "<?php echo $fila["imagen"]?>">
+                        </td>; 
+                        <?php
+                        echo "</tr>";
+                                                
                     }
-                
+                ?>
                 
                 ?>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
