@@ -14,7 +14,14 @@
 </head>
 <body>
     <div class = "container">
-
+    <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $id_anime = $_POST["id_anime"];
+            echo "<h1>$id_anime</h1>";
+            $sql = "DELETE FROM animes WHERE id_anime = $id_anime";
+            $_conexion -> query($sql);
+        }
+    ?>  
 
 
 
@@ -32,6 +39,7 @@
                 <th>Año</th>
                 <th>Numero de temporadas</th>
                 <th>Imagen</th>
+                <th>Borrar</th>
             </thead >
             <tbody>
                 <?php
@@ -44,14 +52,23 @@
                         ?>
                         <td>
                             <img width = "100" height = "200" src = "<?php echo $fila["imagen"]?>">
-                        </td>; 
+                        </td>
+                        <td>
+                            <a class = "btn btn-primary" href="ver_anime.php?id_anime= <?php echo $fila["id_anime"]?>">Editar</a>
+                        </td>
+                        <td>
+                            <form action="" method = "post">
+                                <input class = "btn btn-danger" type = "submit" value = "Borrar">
+                                <input type = "hidden" name = "id_anime" value = "<?php echo $fila["id_anime"]?>">
+                            </form>
+                        </td> 
                         <?php
                         echo "</tr>";
                                                 
                     }
                 ?>
                 
-                ?>
+                
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
             </tbody>
         </table>
